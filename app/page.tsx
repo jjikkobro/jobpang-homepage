@@ -105,38 +105,29 @@ export default function HomePage() {
             </div>
 
             <h1 className="text-5xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              창업·해커톤·
+              도전하는
               <br />
-              네트워킹을
+              사람들을 위한
               <br />
-              <span
+              플랫폼 <span
                 style={{ color: "#e20871" }}
                 className="inline-block"
               >
-                직접 운영
+                취팡
               </span>
-              합니다
             </h1>
 
             <p className="mt-7 max-w-lg text-lg leading-relaxed text-white/60 sm:text-xl">
-              회차별 누적 아카이브로 검증되는 실전 프로그램.
-              <br />
-              참가자와 파트너, 투자자가 모이는 곳.
+              온실을 벗어난 들판의 잡초들이 모이는 곳
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
-                href="/contact"
+                href="/archive"
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/30 transition-all hover:bg-primary/90 hover:shadow-primary/40 hover:shadow-xl"
               >
-                다음 회차 참여/신청
+                진행중인 행사 보기
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/archive"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white"
-              >
-                회차 아카이브 보기
               </Link>
             </div>
           </div>
@@ -162,7 +153,7 @@ export default function HomePage() {
               3가지 프로그램
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              각 프로그램은 독립적으로 운영되며 회차마다 아카이브됩니다
+              각 프로그램은 독립적으로 운영됩니다
             </p>
           </div>
 
@@ -234,11 +225,11 @@ export default function HomePage() {
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-[#0a0a0a] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <dl className="grid grid-cols-3 gap-12">
+          <dl className="grid grid-cols-3 gap-4 sm:gap-12">
             {stats.map((s) => (
-              <div key={s.label} className="flex flex-col gap-2">
-                <dd className="text-5xl font-extrabold text-white">{s.value}</dd>
-                <dt className="text-sm font-medium text-white/40">{s.label}</dt>
+              <div key={s.label} className="flex flex-col gap-1.5 sm:gap-2">
+                <dd className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">{s.value}</dd>
+                <dt className="text-xs font-medium text-white/40 sm:text-sm">{s.label}</dt>
               </div>
             ))}
           </dl>
@@ -246,7 +237,7 @@ export default function HomePage() {
       </section>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          S4. 최근 회차
+          S4. 최근 행사
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-[#f7f7f7] py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -256,7 +247,7 @@ export default function HomePage() {
                 Archive
               </p>
               <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-                최근 회차
+                최근 행사
               </h2>
             </div>
             <Link
@@ -337,7 +328,7 @@ export default function HomePage() {
                 만나는 모임
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                창업·N잡·부업·수익화·커리어 고민을 가진 사람들이 매주
+                창업·N잡·수익화·커리어 고민을 가진 사람들이 매주
                 금요일 오후 7시에 모입니다.
                 <br className="hidden sm:block" />
                 <span className="font-semibold text-foreground">
