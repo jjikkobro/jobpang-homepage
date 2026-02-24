@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { ArrowRight, TrendingUp, Cpu, Users, ChevronDown } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 // ── Seed 데이터 (추후 DB로 대체) ──────────────────────────────────
 const stats = [
-  { label: "누적 회차", value: "2" },
-  { label: "누적 참가자", value: "100+" },
-  { label: "파트너사", value: "10+" },
-  { label: "멘토 · 심사위원", value: "20+" },
+  { label: "누적 회차", value: "53회" },
+  { label: "누적 참가자", value: "800+" },
+  { label: "파트너사", value: "300+" },
 ];
 
 const categories = [
@@ -18,6 +16,9 @@ const categories = [
     description:
       "사업 진단부터 IR 피칭, 투자 상담·연계까지. 초기 ~ 시리즈A 스타트업/예비창업팀 대상.",
     tag: "VENTURE",
+    num: "01",
+    accent: "#e20871",          // 브랜드 핑크
+    accentBg: "rgba(226,8,113,0.06)",
   },
   {
     icon: Cpu,
@@ -26,6 +27,9 @@ const categories = [
     description:
       "실제 서비스의 문제를 정의하고 개선안을 제안하는 실전형 해커톤. PM/기획 관심자 환영.",
     tag: "HACKATHON",
+    num: "02",
+    accent: "#2563eb",          // 블루
+    accentBg: "rgba(37,99,235,0.06)",
   },
   {
     icon: Users,
@@ -34,6 +38,9 @@ const categories = [
     description:
       "창업·N잡·부업·수익화 고민을 가진 사람들의 금요일 정기모임. 엔젤 투자 상담 가능.",
     tag: "NETWORKING",
+    num: "03",
+    accent: "#059669",          // 에메랄드
+    accentBg: "rgba(5,150,105,0.06)",
   },
 ];
 
@@ -73,7 +80,7 @@ export default function HomePage() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 80% 60% at 60% 50%, rgba(255,0,146,0.18) 0%, transparent 70%)",
+              "radial-gradient(ellipse 80% 60% at 60% 50%, rgba(226,8,113,0.18) 0%, transparent 70%)",
           }}
         />
         {/* 그리드 텍스처 */}
@@ -103,7 +110,7 @@ export default function HomePage() {
               네트워킹을
               <br />
               <span
-                style={{ color: "#FF0092" }}
+                style={{ color: "#e20871" }}
                 className="inline-block"
               >
                 직접 운영
@@ -159,32 +166,62 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid gap-px bg-border sm:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-3">
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (
                 <Link
                   key={cat.href}
                   href={cat.href}
-                  className="group flex flex-col gap-6 bg-white p-8 transition-colors hover:bg-[#fafafa] sm:p-10"
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-shadow hover:shadow-lg"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/8 text-primary">
-                      <Icon className="h-5 w-5" />
+                  {/* 상단 컬러 스트립 */}
+                  <div
+                    className="h-1.5 w-full"
+                    style={{ backgroundColor: cat.accent }}
+                  />
+
+                  <div className="flex flex-col gap-5 p-8">
+                    {/* 번호 + 아이콘 */}
+                    <div className="flex items-start justify-between">
+                      <div
+                        className="flex h-12 w-12 items-center justify-center rounded-xl"
+                        style={{ backgroundColor: cat.accentBg, color: cat.accent }}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span
+                        className="text-3xl font-black opacity-10"
+                        style={{ color: cat.accent }}
+                      >
+                        {cat.num}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-bold tracking-[0.15em] text-muted-foreground/60 uppercase">
+
+                    {/* 태그 */}
+                    <span
+                      className="text-[10px] font-bold tracking-[0.18em] uppercase"
+                      style={{ color: cat.accent }}
+                    >
                       {cat.tag}
                     </span>
+
+                    {/* 텍스트 */}
+                    <div className="flex-1">
+                      <p className="text-xl font-bold text-foreground">{cat.label}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                        {cat.description}
+                      </p>
+                    </div>
+
+                    {/* 하단 링크 */}
+                    <div
+                      className="flex items-center gap-1.5 text-sm font-semibold transition-all group-hover:gap-2.5"
+                      style={{ color: cat.accent }}
+                    >
+                      자세히 보기 <ArrowRight className="h-4 w-4" />
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-xl font-bold text-foreground">{cat.label}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {cat.description}
-                    </p>
-                  </div>
-                  <span className="flex items-center gap-1.5 text-sm font-semibold text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                    자세히 보기 <ArrowRight className="h-4 w-4" />
-                  </span>
                 </Link>
               );
             })}
@@ -197,7 +234,7 @@ export default function HomePage() {
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-[#0a0a0a] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <dl className="grid grid-cols-2 gap-12 sm:grid-cols-4">
+          <dl className="grid grid-cols-3 gap-12">
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col gap-2">
                 <dd className="text-5xl font-extrabold text-white">{s.value}</dd>
@@ -364,7 +401,7 @@ export default function HomePage() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 60% 80% at 50% 100%, rgba(255,0,146,0.15) 0%, transparent 60%)",
+              "radial-gradient(ellipse 60% 80% at 50% 100%, rgba(226,8,113,0.15) 0%, transparent 60%)",
           }}
         />
         <div className="relative mx-auto max-w-4xl px-6 text-center lg:px-8">

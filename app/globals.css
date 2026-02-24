@@ -50,9 +50,9 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.09 0 0);
 
-  /* 취팡 브랜드 컬러 #FF0092 */
-  --brand: #FF0092;
-  --primary: oklch(0.59 0.28 330);
+  /* 취팡 브랜드 컬러 #e20871 */
+  --brand: #e20871;
+  --primary: oklch(0.52 0.26 349);
   --primary-foreground: oklch(1 0 0);
 
   --secondary: oklch(0.97 0 0);
