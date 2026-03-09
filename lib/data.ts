@@ -1,4 +1,4 @@
-export type IssueStatus = "past" | "ongoing" | "upcoming";
+export type IssueStatus = "past" | "ongoing" | "upcoming" | "recruiting";
 export type IssueCategory = "venture" | "hackathon" | "networking";
 
 export interface Issue {
@@ -54,6 +54,29 @@ export const issues: Issue[] = [
     },
   },
   {
+    issueId: "networking-weekly",
+    title: "창업N잡러 금요 정기모임",
+    subtitle: "창업·N잡·부업·수익화 고민을 가진 사람들의 금요일 정기모임",
+    category: "networking",
+    editionNumber: 1,
+    status: "ongoing",
+    startDate: "2024-01-01",
+    endDate: "9999-12-31",
+    location: "서울 (회차별 상이)",
+    summary:
+      "창업·N잡·부업·수익화 고민을 가진 사람들이 매주 금요일 오후 7시에 모이는 정기 네트워킹 모임. 엔젤 투자 상담 가능.",
+    highlights: ["4주 챌린지", "브랜딩·창업 세미나", "수주·사업 연결", "엔젤 투자 상담"],
+    applyUrl: "",
+    heroImage: "/gallery/networking/networking-001.webp",
+    galleryImages: [],
+    attachments: [],
+    seo: {
+      metaTitle: "창업N잡러 금요 정기모임 | 취팡",
+      metaDescription:
+        "창업·N잡·부업·수익화 고민을 가진 사람들의 금요일 정기모임. 매주 금요일 오후 7시~10시.",
+    },
+  },
+  {
     issueId: "hackathon-001",
     title: "제 1회 취팡 해커톤",
     subtitle: "실제 서비스를 사용하고, 문제를 정의하고, 개선안을 제안하는 실전형 해커톤",
@@ -61,7 +84,7 @@ export const issues: Issue[] = [
     editionNumber: 1,
     status: "ongoing",
     startDate: "2026-02-23",
-    endDate: "2026-03-22",
+    endDate: "2026-03-29",
     location: "온·오프라인 병행",
     summary:
       "PM/서비스기획/프로덕트 관심자를 대상으로, 실제 서비스의 문제를 발굴하고 개선안을 제안하는 실전형 해커톤.",
@@ -79,6 +102,33 @@ export const issues: Issue[] = [
       metaTitle: "제 1회 취팡 해커톤 | 취팡",
       metaDescription:
         "실제 서비스 문제를 정의하고 개선안을 제안하는 PM/서비스기획 실전형 해커톤.",
+    },
+  },
+  {
+    issueId: "hackathon-002",
+    title: "제 2회 취팡 서비스기획&마케팅 해커톤",
+    subtitle: "진단 결과 공유로 유입을 만들고, 7일 구직 루틴을 설계하는 성장 루프 공모전",
+    category: "hackathon",
+    editionNumber: 2,
+    status: "recruiting",
+    startDate: "2026-03-09",
+    endDate: "2026-04-20",
+    location: "온라인",
+    summary:
+      "서비스기획·마케팅 직군을 위한 팀빌딩형 공모전. 공유된 스펙진단 결과가 신규 유저를 유입시키고 7일 구직 루틴을 만드는 성장 루프를 설계합니다.",
+    highlights: [
+      "대상 700만원 · 최우수상 300만원 · 우수상 100만원",
+      "팀빌딩 지원",
+      "채용 우대",
+    ],
+    applyUrl: "",
+    heroImage: "",
+    galleryImages: [],
+    attachments: [],
+    seo: {
+      metaTitle: "제 2회 취팡 서비스기획&마케팅 해커톤 | 취팡",
+      metaDescription:
+        "진단 결과 공유로 유입을 만들고 7일 구직 루틴을 설계하는 성장 루프 공모전. 대상 700만원.",
     },
   },
 ];
@@ -101,6 +151,7 @@ export const STATUS_LABEL: Record<IssueStatus, string> = {
   ongoing: "진행중",
   upcoming: "예정",
   past: "종료",
+  recruiting: "모집중",
 };
 
 export const CATEGORY_LABEL: Record<IssueCategory, string> = {
@@ -108,3 +159,20 @@ export const CATEGORY_LABEL: Record<IssueCategory, string> = {
   hackathon: "해커톤",
   networking: "네트워킹",
 };
+
+export const galleryImages = [
+  { src: "/gallery/networking/networking-001.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-002.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-003.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-004.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-005.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-006.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-007.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-008.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-009.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-010.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-011.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-012.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-013.webp", alt: "networking" },
+  { src: "/gallery/networking/networking-014.webp", alt: "networking" },
+];
