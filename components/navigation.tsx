@@ -23,8 +23,8 @@ const navItems = [
   { label: "창업/투자", href: "/venture" },
   { label: "해커톤", href: "/hackathon" },
   { label: "네트워킹", href: "/networking" },
-  { label: "아카이브", href: "/archive" },
-  { label: "문의/제휴", href: "/contact" },
+  { label: "전체 프로그램", href: "/archive" },
+  { label: "취팡 소개", href: "/about" },
 ];
 
 export function Navigation() {
@@ -66,7 +66,7 @@ export function Navigation() {
       <header
         className={cn(
           "w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90 transition-shadow duration-200",
-          scrolled ? "border-border/60 shadow-sm" : "border-transparent"
+          scrolled ? "border-gray-200 shadow-sm" : "border-transparent"
         )}
       >
         <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-6 lg:px-8">
@@ -94,10 +94,10 @@ export function Navigation() {
                     href={item.href}
                     className={cn(
                       "relative px-4 py-2 text-[15px] font-medium transition-colors rounded-sm",
-                      "hover:text-foreground",
+                      "hover:text-gray-900",
                       active
-                        ? "text-foreground after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:rounded-full after:bg-primary"
-                        : "text-muted-foreground"
+                        ? "text-gray-900 after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:rounded-full after:bg-primary"
+                        : "text-gray-500"
                     )}
                   >
                     {item.label}
@@ -107,13 +107,13 @@ export function Navigation() {
             })}
           </ul>
 
-          {/* 데스크탑 우측: 참여 문의 텍스트 링크 */}
+          {/* 데스크탑 우측: 취팡 합류하기 텍스트 링크 */}
           <div className="hidden md:flex items-center gap-6">
             <Link
-              href="/contact"
+              href="/careers"
               className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:opacity-80 transition-opacity"
             >
-              참여 문의
+              취팡 합류하기
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -168,11 +168,11 @@ export function Navigation() {
               </ul>
               <div className="border-t mx-6 pt-6 pb-4">
                 <Link
-                  href="/contact"
+                  href="/careers"
                   onClick={() => setSheetOpen(false)}
                   className="flex items-center justify-center gap-2 w-full rounded-full bg-primary py-3 text-sm font-bold text-white"
                 >
-                  참여 문의 <ArrowRight className="h-4 w-4" />
+                  취팡 합류하기 <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </SheetContent>

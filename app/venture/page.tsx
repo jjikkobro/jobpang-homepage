@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Search,
   Mic,
   Handshake,
   Users,
-  CheckCircle2,
   ChevronRight,
 } from "lucide-react";
 import { getIssuesByCategory, STATUS_LABEL } from "@/lib/data";
+import { GalleryMarquee } from "@/components/gallery-marquee";
 
 export const metadata: Metadata = {
   title: "창업/투자 | 취팡",
@@ -17,8 +18,21 @@ export const metadata: Metadata = {
     "사업 진단부터 IR 피칭, 투자 상담·연계, 네트워킹까지. 취팡 창업/투자 경진대회 프로그램을 소개합니다.",
 };
 
-// ── 페이지 전용 상수 ──────────────────────────────────────────────
+const galleryImages: { src: string; alt: string }[] = [
+  { src: "/gallery/venture/venture-002.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-003.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-004.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-005.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-006.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-007.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-008.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-009.webp", alt: "venture" },
+  { src: "/gallery/venture/venture-010.webp", alt: "venture" },
+];
+
 const ACCENT = "#e20871";
+// 히어로 우측 사진 경로. 비어있으면 기존 단일 컬럼 레이아웃 유지.
+const HERO_IMAGE = "/gallery/venture/venture-009.webp"; // 예: "/gallery/venture/hero.webp"
 
 const flow = [
   {
@@ -56,11 +70,11 @@ const targets = [
 ];
 
 const programs = [
-  "투자자 오픈토크 — 현직 투자자의 투자 관점 강의",
-  "비대면 IR 피칭 — 온라인 예선 발표 및 피드백",
-  "오프라인 최종 발표 — 구글 스타트업 캠퍼스 등 현장 진행",
-  "1:1 투자 상담 — 관심 투자자와의 개별 면담",
-  "참가팀 네트워킹 — 협업·파트너십 연결",
+  { label: "투자자 오픈토크", desc: "현직 투자자의 투자 관점 강의" },
+  { label: "비대면 IR 피칭", desc: "온라인 예선 발표 및 실시간 피드백" },
+  { label: "오프라인 최종 발표", desc: "구글 스타트업 캠퍼스 등 현장 진행" },
+  { label: "1:1 투자 상담", desc: "관심 투자자와의 개별 면담" },
+  { label: "참가팀 네트워킹", desc: "협업·파트너십 연결" },
 ];
 
 const faqs = [
@@ -86,125 +100,155 @@ const faqs = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────
-
 export default function VenturePage() {
   const ventureIssues = getIssuesByCategory("venture");
 
   return (
     <>
-      {/* ━━━ HERO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="relative overflow-hidden bg-[#0a0a0a] pb-24 pt-20">
-        {/* 배경 글로우 */}
+      {/* ━━━ HERO (black 유지) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="relative overflow-hidden bg-black pb-32 pt-20">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse 60% 70% at 70% 50%, ${ACCENT}22 0%, transparent 65%)`,
+            background: `radial-gradient(ellipse 55% 65% at 65% 50%, ${ACCENT}22 0%, transparent 65%)`,
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
           }}
         />
 
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           {/* 브레드크럼 */}
-          <nav className="mb-10 flex items-center gap-1.5 text-xs text-white/30">
-            <Link href="/" className="hover:text-white/60 transition-colors">홈</Link>
+          <nav className="mb-12 flex items-center gap-1.5 text-xs text-white/25">
+            <Link href="/" className="hover:text-white/50 transition-colors">홈</Link>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-white/60">창업/투자</span>
+            <span className="text-white/50">창업/투자</span>
           </nav>
 
-          <div className="max-w-2xl">
-            <span
-              className="mb-5 inline-block text-xs font-bold tracking-[0.2em] uppercase"
-              style={{ color: ACCENT }}
-            >
-              Venture · 창업/투자
-            </span>
-            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              사업을 키우는
-              <br />
-              가장 실전적인
-              <br />
-              <span style={{ color: ACCENT }}>방법</span>
-            </h1>
-            <p className="mt-6 text-lg leading-relaxed text-white/55">
-              사업 진단 → IR 피칭 → 투자 상담 → 네트워킹까지.
-              <br />
-              실제 투자자와 만나는 경험을 제공합니다.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90"
-                style={{
-                  backgroundColor: ACCENT,
-                  boxShadow: `0 8px 24px ${ACCENT}40`,
-                }}
+          <div className={HERO_IMAGE ? "lg:grid lg:grid-cols-2 lg:items-center lg:gap-16" : "max-w-3xl"}>
+            {/* 텍스트 */}
+            <div>
+              <span
+                className="mb-6 inline-block text-xs font-bold tracking-[0.25em] uppercase"
+                style={{ color: ACCENT }}
               >
-                참여 문의 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/archive?category=venture"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white/75 transition-all hover:bg-white/10 hover:text-white"
-              >
-                회차 아카이브
-              </Link>
+                Venture · 창업/투자
+              </span>
+              <h1 className="text-6xl font-extrabold leading-[1.0] tracking-tight text-white sm:text-7xl lg:text-[90px]">
+                Grow-Up
+                <br />
+                Your
+                <br />
+                <span style={{ color: ACCENT }}>Start-Up</span>
+              </h1>
+              <p className="mt-8 max-w-xl text-xl leading-relaxed text-white/45">
+                사업 진단 → IR 피칭 → 투자 상담 → 네트워킹까지.
+                <br />
+                실제 투자자와 만나는 경험을 제공합니다.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold text-white transition-all hover:opacity-90"
+                  style={{
+                    backgroundColor: ACCENT,
+                    boxShadow: `0 0 32px ${ACCENT}45`,
+                  }}
+                >
+                  참여 문의 <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/archive?category=venture"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-8 py-4 text-sm font-semibold text-white/60 transition-all hover:border-white/30 hover:text-white"
+                >
+                  회차 아카이브
+                </Link>
+              </div>
             </div>
+
+            {/* 우측 히어로 이미지 */}
+            {HERO_IMAGE && (
+              <div className="relative mt-12 hidden lg:mt-0 lg:block">
+                <div className="relative h-[440px] overflow-hidden rounded-2xl">
+                  <Image
+                    src={HERO_IMAGE}
+                    alt="창업/투자 행사 현장"
+                    fill
+                    className="object-cover opacity-60"
+                    sizes="(min-width: 1024px) 50vw, 0px"
+                    priority
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(to right, black 0%, transparent 40%)" }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(to top, black 0%, transparent 40%)" }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ━━━ 진행 방식 (4단계 플로우) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-white py-28">
+      {/* ━━━ 진행 방식 (4단계) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-white py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mb-16">
+          <div className="mb-20 text-center">
             <p
-              className="mb-3 text-xs font-bold tracking-[0.2em] uppercase"
+              className="mb-4 text-xs font-bold tracking-[0.25em] uppercase"
               style={{ color: ACCENT }}
             >
-              How it works
+              Point 1 — How it works
             </p>
-            <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+            <h2 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
               진행 방식
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-5 text-lg text-gray-400">
               4단계 구조로 IR 경험부터 투자 연계까지 체계적으로 진행합니다
             </p>
           </div>
 
-          <div className="grid gap-0 sm:grid-cols-2 lg:grid-cols-4">
-            {flow.map((item, idx) => {
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {flow.map((item) => {
               const Icon = item.icon;
-              const isLast = idx === flow.length - 1;
               return (
-                <div key={item.step} className="relative flex flex-col gap-5 p-8 lg:p-10">
-                  {/* 연결선 (마지막 제외) */}
-                  {!isLast && (
+                <div
+                  key={item.step}
+                  className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-gray-50 p-8"
+                >
+                  <div className="flex items-center justify-between">
                     <div
-                      aria-hidden="true"
-                      className="absolute right-0 top-[52px] hidden h-px w-8 lg:block"
-                      style={{ backgroundColor: `${ACCENT}30` }}
-                    />
-                  )}
-                  {/* 스텝 번호 */}
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                      className="flex h-12 w-12 items-center justify-center rounded-xl"
                       style={{ backgroundColor: `${ACCENT}10`, color: ACCENT }}
                     >
                       <Icon className="h-5 w-5" />
                     </div>
                     <span
-                      className="text-xs font-bold tracking-widest"
-                      style={{ color: `${ACCENT}80` }}
+                      className="text-4xl font-black opacity-[0.06] select-none"
+                      style={{ color: ACCENT }}
                     >
-                      STEP {item.step}
+                      {item.step}
                     </span>
                   </div>
                   <div>
-                    <p className="text-lg font-bold">{item.title}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.desc}
+                    <p
+                      className="mb-1 text-[10px] font-bold tracking-widest uppercase"
+                      style={{ color: `${ACCENT}80` }}
+                    >
+                      STEP {item.step}
                     </p>
+                    <p className="text-lg font-bold text-gray-900">{item.title}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-500">{item.desc}</p>
                   </div>
                 </div>
               );
@@ -213,56 +257,69 @@ export default function VenturePage() {
         </div>
       </section>
 
-      {/* ━━━ 프로그램 구성 + 대상 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-[#f7f7f7] py-28">
+      {/* ━━━ 프로그램 구성 + 추천 대상 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-gray-50 py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-16 lg:grid-cols-2">
-            {/* 프로그램 */}
-            <div>
+          <div className="mb-20 text-center">
+            <p
+              className="mb-4 text-xs font-bold tracking-[0.25em] uppercase"
+              style={{ color: ACCENT }}
+            >
+              Point 2 — Details
+            </p>
+            <h2 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
+              프로그램 상세
+            </h2>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {/* 프로그램 구성 */}
+            <div className="rounded-2xl border border-gray-200 bg-white p-8 sm:p-10">
               <p
-                className="mb-3 text-xs font-bold tracking-[0.2em] uppercase"
+                className="mb-6 text-xs font-bold tracking-[0.2em] uppercase"
                 style={{ color: ACCENT }}
               >
                 Program
               </p>
-              <h2 className="mb-8 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                프로그램 구성
-              </h2>
-              <ul className="flex flex-col gap-3">
-                {programs.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2
-                      className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: ACCENT }}
-                    />
-                    <span className="text-sm leading-relaxed text-foreground">{item}</span>
+              <h3 className="mb-8 text-2xl font-bold text-gray-900">프로그램 구성</h3>
+              <ul className="flex flex-col gap-4">
+                {programs.map((item, i) => (
+                  <li key={item.label} className="flex items-start gap-4">
+                    <span
+                      className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
+                      style={{ backgroundColor: `${ACCENT}12`, color: ACCENT }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <p className="font-bold text-gray-900">{item.label}</p>
+                      <p className="text-sm text-gray-500">{item.desc}</p>
+                    </div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* 대상 */}
-            <div>
+            {/* 추천 대상 */}
+            <div className="rounded-2xl border border-gray-200 bg-white p-8 sm:p-10">
               <p
-                className="mb-3 text-xs font-bold tracking-[0.2em] uppercase"
+                className="mb-6 text-xs font-bold tracking-[0.2em] uppercase"
                 style={{ color: ACCENT }}
               >
                 Who should apply
               </p>
-              <h2 className="mb-8 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                추천 대상
-              </h2>
+              <h3 className="mb-8 text-2xl font-bold text-gray-900">추천 대상</h3>
               <ul className="flex flex-col gap-3">
                 {targets.map((item) => (
                   <li
                     key={item}
-                    className="flex items-start gap-3 rounded-xl border border-border bg-white px-5 py-4"
+                    className="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 px-5 py-4"
                   >
                     <ArrowRight
                       className="mt-0.5 h-4 w-4 shrink-0"
                       style={{ color: ACCENT }}
                     />
-                    <span className="text-sm font-medium leading-relaxed">{item}</span>
+                    <span className="text-sm font-medium text-gray-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -271,61 +328,76 @@ export default function VenturePage() {
         </div>
       </section>
 
-      {/* ━━━ 최근 회차 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* ━━━ 갤러리 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {galleryImages.length > 0 && (
+        <section className="bg-gray-50 py-20">
+          <div className="mb-10 text-center">
+            <p
+              className="text-xs font-bold tracking-[0.25em] uppercase"
+              style={{ color: ACCENT }}
+            >
+              Gallery — 현장 사진
+            </p>
+          </div>
+          <GalleryMarquee images={galleryImages} height={240} duration="45s" />
+        </section>
+      )}
+
+      {/* ━━━ 지난 회차 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {ventureIssues.length > 0 && (
-        <section className="bg-white py-28">
+        <section className="bg-white py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mb-12 flex items-end justify-between">
+            <div className="mb-16 flex items-end justify-between">
               <div>
                 <p
-                  className="mb-3 text-xs font-bold tracking-[0.2em] uppercase"
+                  className="mb-4 text-xs font-bold tracking-[0.25em] uppercase"
                   style={{ color: ACCENT }}
                 >
-                  Archive
+                  Point 3 — Archive
                 </p>
-                <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                <h2 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
                   지난 회차
                 </h2>
               </div>
               <Link
                 href="/archive?category=venture"
-                className="hidden items-center gap-1.5 text-sm font-semibold text-foreground transition-colors hover:text-primary sm:flex"
+                className="hidden items-center gap-1.5 text-sm font-semibold text-gray-400 transition-colors hover:text-gray-900 sm:flex"
               >
                 전체 보기 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
 
-            <div className="flex flex-col divide-y divide-border border-y border-border">
+            <div className="flex flex-col divide-y divide-gray-200 border-y border-gray-200">
               {ventureIssues.map((issue) => (
                 <Link
                   key={issue.issueId}
                   href={`/archive/${issue.issueId}`}
-                  className="group flex flex-col gap-3 py-7 sm:flex-row sm:items-center sm:gap-8"
+                  className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10"
                 >
-                  <div className="w-20 shrink-0">
+                  <div className="w-24 shrink-0">
                     {issue.status === "ongoing" ? (
                       <span
-                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-white"
+                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-white"
                         style={{ backgroundColor: ACCENT }}
                       >
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
                         진행중
                       </span>
                     ) : (
-                      <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                      <span className="inline-flex items-center rounded-full border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-400">
                         {STATUS_LABEL[issue.status]}
                       </span>
                     )}
                   </div>
                   <div className="flex-1">
-                    <p className="text-lg font-bold transition-colors group-hover:text-primary sm:text-xl">
+                    <p className="text-xl font-bold text-gray-900 transition-colors group-hover:text-[#e20871] sm:text-2xl">
                       {issue.title}
                     </p>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1.5 text-sm text-gray-400">
                       {issue.startDate} — {issue.endDate} &nbsp;·&nbsp; {issue.location}
                     </p>
                   </div>
-                  <ArrowRight className="hidden h-5 w-5 shrink-0 text-muted-foreground/40 transition-all group-hover:translate-x-1 group-hover:text-primary sm:block" />
+                  <ArrowRight className="hidden h-5 w-5 shrink-0 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-[#e20871] sm:block" />
                 </Link>
               ))}
             </div>
@@ -334,25 +406,33 @@ export default function VenturePage() {
       )}
 
       {/* ━━━ FAQ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-[#f7f7f7] py-28">
+      <section className="bg-gray-50 py-32">
         <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <div className="mb-12">
+          <div className="mb-16 text-center">
             <p
-              className="mb-3 text-xs font-bold tracking-[0.2em] uppercase"
+              className="mb-4 text-xs font-bold tracking-[0.25em] uppercase"
               style={{ color: ACCENT }}
             >
-              FAQ
+              Point 4 — FAQ
             </p>
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <h2 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
               자주 묻는 질문
             </h2>
           </div>
 
-          <dl className="flex flex-col divide-y divide-border">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="py-7">
-                <dt className="text-base font-bold text-foreground">{faq.q}</dt>
-                <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          <dl className="flex flex-col divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white overflow-hidden">
+            {faqs.map((faq, i) => (
+              <div key={faq.q} className="px-8 py-7">
+                <dt className="flex items-start gap-4">
+                  <span
+                    className="mt-0.5 text-xs font-bold tracking-widest"
+                    style={{ color: `${ACCENT}70` }}
+                  >
+                    Q{String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-base font-bold text-gray-900">{faq.q}</span>
+                </dt>
+                <dd className="mt-3 pl-9 text-sm leading-relaxed text-gray-500">
                   {faq.a}
                 </dd>
               </div>
@@ -362,35 +442,37 @@ export default function VenturePage() {
       </section>
 
       {/* ━━━ CTA ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="relative overflow-hidden bg-[#0a0a0a] py-28">
+      <section className="relative overflow-hidden bg-white py-36">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse 50% 80% at 50% 100%, ${ACCENT}18 0%, transparent 60%)`,
+            background: `radial-gradient(ellipse 55% 65% at 50% 110%, ${ACCENT}10 0%, transparent 60%)`,
           }}
         />
         <div className="relative mx-auto max-w-3xl px-6 text-center lg:px-8">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            다음 회차에 지원하세요
+          <h2 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
+            다음 회차에
+            <br />
+            지원하세요
           </h2>
-          <p className="mt-5 text-lg text-white/50">
+          <p className="mt-6 text-lg text-gray-400">
             취팡 창업/투자 프로그램 참여 신청 및 제휴 문의를 받습니다
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-full px-9 py-4 text-sm font-bold text-white transition-all hover:opacity-90"
               style={{
                 backgroundColor: ACCENT,
-                boxShadow: `0 8px 24px ${ACCENT}40`,
+                boxShadow: `0 0 40px ${ACCENT}30`,
               }}
             >
               참여 문의 <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/archive?category=venture"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-sm font-semibold text-white/70 transition-all hover:bg-white/10 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-gray-200 px-9 py-4 text-sm font-semibold text-gray-600 transition-all hover:border-gray-300 hover:text-gray-900"
             >
               지난 회차 보기
             </Link>

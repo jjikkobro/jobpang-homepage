@@ -28,12 +28,13 @@ const footerLinks = [
       { label: "문의/제휴", href: "/contact" },
     ],
   },
+];
+
+const externalLinks = [
   {
-    group: "정책",
-    items: [
-      { label: "개인정보처리방침", href: "/privacy" },
-      { label: "이용약관", href: "/terms" },
-    ],
+    label: "공식 블로그",
+    href: "https://blog.naver.com/jobprise",
+    desc: "blog.naver.com/jobprise",
   },
 ];
 
@@ -55,9 +56,9 @@ export function Footer() {
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/40">
-              창업·해커톤·네트워킹을 직접 운영합니다.
+              취업채용 플랫폼 취팡
               <br />
-              회차별 누적 아카이브로 신뢰를 쌓아갑니다.
+              창업·해커톤·네트워킹
             </p>
           </div>
 
@@ -83,12 +84,37 @@ export function Footer() {
           ))}
         </div>
 
+        {/* 패밀리 사이트 */}
+        <div className="mt-12 border-t border-white/10 pt-10">
+          <p className="mb-5 text-xs font-bold tracking-[0.15em] text-white/30 uppercase">
+            More from 취팡
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {externalLinks.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-col rounded-xl border border-white/10 bg-white/5 px-5 py-3 transition-all hover:border-white/20 hover:bg-white/8"
+              >
+                <span className="text-[10px] font-bold tracking-widest text-white/30 uppercase">
+                  {item.label}
+                </span>
+                <span className="mt-0.5 text-sm font-medium text-white/60">
+                  {item.desc}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* 하단 */}
         <div className="mt-16 flex flex-col gap-2 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-white/25">
             © {new Date().getFullYear()} 취팡(jobpang). All rights reserved.
           </p>
-          <p className="text-xs text-white/25">club.jobpang.co.kr</p>
+          <p className="text-xs text-white/25">growth.jobpang.co.kr</p>
         </div>
       </div>
     </footer>

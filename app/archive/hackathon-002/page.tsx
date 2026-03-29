@@ -26,9 +26,8 @@ const ACCENT = "#2563eb";
 const APPLY_URL = "";
 
 const schedule = [
-  { date: "3/30(일) 이전", label: "팀빌딩 희망자 신청 권장", status: "done" },
   { date: "3/30(일) ~ 4/6(일)", label: "팀빌딩 기간", status: "current" },
-  { date: "4/6(일) 23:59", label: "지원 마감", status: "current" },
+  { date: "4/6(일) 23:59", label: "구글폼 신청 마감", status: "current" },
   { date: "4/7(월) ~ 4/20(일)", label: "공모전 운영 기간 (2주)", status: "upcoming" },
   { date: "4/20(일) 23:59", label: "최종 제출 마감", status: "upcoming" },
 ];
@@ -37,12 +36,12 @@ const flow = [
   {
     step: "01",
     title: "공유 → 유입",
-    desc: "공유 결과를 본 유저 B가 "바로 진단해보고 싶다"고 느끼게 만들기",
+    desc: '공유 결과를 본 유저 B가 "바로 진단해보고 싶다"고 느끼게 만들기',
   },
   {
     step: "02",
     title: "유입 → 가입",
-    desc: "진단을 시작하고 자연스럽게 가입까지 이어지게 만들기 — "가입해야 하는 이유"가 설득되게",
+    desc: '진단을 시작하고 자연스럽게 가입까지 이어지게 만들기 — "가입해야 하는 이유"가 설득되게',
   },
   {
     step: "03",
@@ -96,7 +95,7 @@ const optionalDeliverables = [
 
 const criteria = [
   { icon: Target, label: "실행 가능성", desc: "지금 당장 운영으로 돌릴 수 있는가" },
-  { icon: GitBranch, label: "전환 설계력", desc: "유입이 "첫 행동"으로 이어지는가" },
+  { icon: GitBranch, label: "전환 설계력", desc: '유입이 "첫 행동"으로 이어지는가' },
   { icon: ArrowRight, label: "리텐션/CRM 설계", desc: "7일 루프가 끊기지 않는가" },
   { icon: BarChart2, label: "측정/실험 감각", desc: "KPI와 A/B가 구체적인가" },
   { icon: ClipboardList, label: "완성도/명료함", desc: "한 장 요약과 흐름이 이해되는가" },
@@ -129,12 +128,13 @@ const benefits = [
   },
   {
     icon: Target,
-    title: "취팡 서비스 기획 실사용 검토",
+    title: "취팡 팀 채용 기회 제공 (우선 검토/인터뷰)",
     items: [
-      "대상·최우수상 기획안 PoC 또는 내부 테스트 형태 활용 검토",
-      "희망자에 한해 취팡 서비스 기획/PM 프로젝트 팀 단기 협업 기회",
+      "서류/과제 일부 면제 또는 간소화 등 우선 검토",
+      "비대면 1차 인터뷰(커피챗 형태 가능) 우선 진행",
+      "적합 시 단기 협업(유급/프로젝트형) → 정식 합류로 연결 가능",
     ],
-    note: "채용이 아닌 프로젝트 단위 협업 기회",
+    note: "채용을 보장하지 않으며, 최종 합류 여부는 인터뷰 및 상호 협의를 통해 결정됩니다",
   },
   {
     icon: Trophy,
@@ -245,8 +245,63 @@ export default function Hackathon002Page() {
         </div>
       </section>
 
+      {/* ━━━ 취팡 소개 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-white py-24">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8">
+          <p
+            className="mb-4 text-xs font-bold tracking-[0.25em] uppercase"
+            style={{ color: ACCENT }}
+          >
+            About 취팡
+          </p>
+          <h2 className="mb-8 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            취팡이란?
+          </h2>
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div
+              className="lg:col-span-2 rounded-2xl border p-8 sm:p-10"
+              style={{ borderColor: `${ACCENT}20`, backgroundColor: `${ACCENT}04` }}
+            >
+              <p className="text-lg leading-relaxed text-gray-700">
+                취팡은{" "}
+                <strong className="text-gray-900">2026년 3월 정식 런칭한 AI 기반 취업·채용 플랫폼</strong>이에요.
+              </p>
+              <p className="mt-4 text-lg leading-relaxed text-gray-700">
+                <strong className="text-gray-900">2011년부터 15년 동안</strong> 취업 컨설팅을 통해
+                구직자들과 함께해온 <strong className="text-gray-900">취업의신의 노하우</strong>를
+                모조리 학습한 취팡은 구직자들의 <strong className="text-gray-900">현실적인 불편함</strong>에서 출발했어요.
+              </p>
+              <p className="mt-4 text-lg leading-relaxed text-gray-700">
+                단순히 채용공고를 조회하는 서비스가 아닌, 내 현재 스펙 진단부터 지원까지,
+                <strong className="text-gray-900"> 진단 → 매칭 → 지원 → 피드백</strong>이
+                자연스럽게 이어지면서 취업 준비 과정 전체를{" "}
+                <strong className="text-gray-900">함께하는 플랫폼</strong>을 만들고 있어요.
+              </p>
+            </div>
+            <div className="flex flex-col gap-4">
+              {[
+                { label: "업력", value: "15년", sub: "2011년 취업의신 설립" },
+                { label: "서비스", value: "AI 기반", sub: "취업·채용 플랫폼" },
+                { label: "런칭", value: "2026.03", sub: "정식 서비스 오픈" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="flex flex-col gap-1 rounded-2xl border border-gray-200 bg-gray-50 p-6"
+                >
+                  <p className="text-xs font-bold tracking-widest uppercase text-gray-400">
+                    {item.label}
+                  </p>
+                  <p className="text-2xl font-extrabold text-gray-900">{item.value}</p>
+                  <p className="text-sm text-gray-500">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ━━━ 미션 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-white py-28">
+      <section className="bg-gray-50 py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-16 text-center">
             <p
@@ -565,7 +620,7 @@ export default function Hackathon002Page() {
       </section>
 
       {/* ━━━ 심사 기준 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-white py-28">
+      {/* <section className="bg-white py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-16 text-center">
             <p
@@ -610,7 +665,7 @@ export default function Hackathon002Page() {
             })}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ━━━ 시상 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-gray-50 py-28">
