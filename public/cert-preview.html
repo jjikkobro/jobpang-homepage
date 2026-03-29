@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>참가확인서 좌표 테스트</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f3f4f6; font-family: sans-serif; display: flex; gap: 0; min-height: 100vh; }
+
+    /* 사이드바 */
+    #sidebar {
+      width: 280px;
+      min-width: 280px;
+      background: white;
+      border-right: 1px solid #e5e7eb;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100vh;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+    }
+    h2 { font-size: 15px; font-weight: 700; color: #111; }
+    .section { display: flex; flex-direction: column; gap: 8px; }
+    .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E20871; }
+    label { font-size: 12px; color: #555; margin-bottom: 2px; display: block; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      outline: none;
+    }
+    input:focus { border-color: #E20871; box-shadow: 0 0 0 2px #E2087120; }
+    .row { display: flex; gap: 8px; }
+    .row > div { flex: 1; }
+    button {
+      width: 100%;
+      background: #E20871;
+      color: white;
+      border: none;
+      border-radius: 99px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { opacity: 0.9; }
+    #download-btn {
+      background: white;
+      color: #E20871;
+      border: 1.5px solid #E20871;
+      margin-top: 4px;
+    }
+    #coords-log {
+      font-size: 11px;
+      color: #777;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px 10px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    #coords-log div { padding: 2px 0; border-bottom: 1px solid #f0f0f0; }
+    .hint { font-size: 11px; color: #9ca3af; line-height: 1.5; }
+
+    /* 미리보기 */
+    #preview-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 32px 24px;
+      gap: 12px;
+      overflow: auto;
+    }
+    #canvas {
+      max-width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      cursor: crosshair;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    #cursor-info {
+      font-size: 12px;
+      color: #6b7280;
+      background: white;
+      padding: 6px 14px;
+      border-radius: 99px;
+      border: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 사이드바 -->
+<div id="sidebar">
+  <h2>🎯 좌표 테스트 도구</h2>
+
+  <div class="section">
+    <div class="section-title">이름</div>
+    <div>
+      <label>텍스트</label>
+      <input type="text" id="name-text" value="홍길동" />
+    </div>
+    <div class="row">
+      <div>
+        <label>X</label>
+        <input type="number" id="name-x" value="410" />
+      </div>
+      <div>
+        <label>Y</label>
+        <input type="number" id="name-y" value="211" />
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>크기(px)</label>
+        <input type="number" id="name-size" value="68" />
+      </div>
+      <div>
+        <label>색상</label>
+        <input type="text" id="name-color" value="#000000" />
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">팀명</div>
+    <div>
+      <label>텍스트</label>
+      <input type="text" id="team-text" value="취팡팀" />
+    </div>
+    <div class="row">
+      <div>
+        <label>X</label>
+        <input type="number" id="team-x" value="410" />
+      </div>
+      <div>
+        <label>Y</label>
+        <input type="number" id="team-y" value="291" />
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>크기(px)</label>
+        <input type="number" id="team-size" value="18" />
+      </div>
+      <div>
+        <label>색상</label>
+        <input type="text" id="team-color" value="#000000" />
+      </div>
+    </div>
+  </div>
+
+  <button onclick="render()">렌더링</button>
+  <button id="download-btn" onclick="download()">PNG 다운로드</button>
+
+  <div class="section">
+    <div class="section-title">이미지 클릭 좌표</div>
+    <p class="hint">캔버스 위를 클릭하면 실제 픽셀 좌표가 기록됩니다.</p>
+    <div id="coords-log"><div style="color:#bbb">클릭 대기 중…</div></div>
+  </div>
+</div>
+
+<!-- 미리보기 -->
+<div id="preview-area">
+  <div id="cursor-info">이미지 위에 마우스를 올려보세요</div>
+  <canvas id="canvas"></canvas>
+</div>
+
+<script>
+  const REAL_W = 842, REAL_H = 596;
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const log = document.getElementById('coords-log');
+  const cursorInfo = document.getElementById('cursor-info');
+
+  const img = new Image();
+  img.src = '/certificate.png';
+  img.onload = () => {
+    canvas.width = REAL_W;
+    canvas.height = REAL_H;
+    render();
+  };
+
+  function getRealCoords(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = REAL_W / rect.width;
+    const scaleY = REAL_H / rect.height;
+    return {
+      x: Math.round((e.clientX - rect.left) * scaleX),
+      y: Math.round((e.clientY - rect.top) * scaleY),
+    };
+  }
+
+  canvas.addEventListener('mousemove', (e) => {
+    const { x, y } = getRealCoords(e);
+    cursorInfo.textContent = `x: ${x},  y: ${y}`;
+  });
+
+  canvas.addEventListener('click', (e) => {
+    const { x, y } = getRealCoords(e);
+    log.innerHTML = `<div style="color:#E20871;font-weight:700">x: ${x}, y: ${y}</div>` + log.innerHTML;
+  });
+
+  function render() {
+    ctx.clearRect(0, 0, REAL_W, REAL_H);
+    ctx.drawImage(img, 0, 0);
+
+    const nameText  = document.getElementById('name-text').value;
+    const nameX     = +document.getElementById('name-x').value;
+    const nameY     = +document.getElementById('name-y').value;
+    const nameSize  = +document.getElementById('name-size').value;
+    const nameColor = document.getElementById('name-color').value;
+
+    const teamText  = document.getElementById('team-text').value;
+    const teamX     = +document.getElementById('team-x').value;
+    const teamY     = +document.getElementById('team-y').value;
+    const teamSize  = +document.getElementById('team-size').value;
+    const teamColor = document.getElementById('team-color').value;
+
+    // 이름
+    ctx.save();
+    ctx.font = `600 ${nameSize}px "Pretendard", "Apple SD Gothic Neo", sans-serif`;
+    ctx.fillStyle = nameColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(nameText, nameX, nameY);
+    ctx.restore();
+
+    // 팀명
+    if (teamText) {
+      ctx.save();
+      ctx.font = `600 ${teamSize}px "Pretendard", "Apple SD Gothic Neo", sans-serif`;
+      ctx.fillStyle = teamColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(teamText, teamX, teamY);
+      ctx.restore();
+    }
+
+    // 기준점 표시 (빨간 점)
+    [[nameX, nameY], [teamX, teamY]].forEach(([x, y]) => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(226,8,113,0.5)';
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function download() {
+    const link = document.createElement('a');
+    link.download = 'cert-preview.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // 입력값 변경 시 자동 렌더링
+  document.querySelectorAll('input').forEach(el => {
+    el.addEventListener('input', render);
+  });
+</script>
+</body>
+</html>
