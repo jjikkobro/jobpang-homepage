@@ -14,20 +14,37 @@ const BASE_URL = "https://growth.jobpang.co.kr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   title: {
-    default: "취팡 | 창업·해커톤·네트워킹을 직접 운영합니다",
+    default: "취팡 | AI 취업채용 플랫폼",
     template: "%s | 취팡",
   },
   description:
-    "회차별 누적 아카이브로 검증되는 실전 프로그램. 창업/투자 경진대회, 해커톤, 금요 네트워킹 정기모임을 운영합니다.",
+    "15년 취업이직 컨설팅 노하우를 학습한 취업채용 플랫폼입니다.",
   openGraph: {
-    title: "취팡 | 창업·해커톤·네트워킹을 직접 운영합니다",
+    title: "취팡 | AI 취업채용 플랫폼",
     description:
-      "회차별 누적 아카이브로 검증되는 실전 프로그램. 창업/투자 경진대회, 해커톤, 금요 네트워킹 정기모임을 운영합니다.",
+      "15년 취업이직 컨설팅 노하우를 학습한 취업채용 플랫폼입니다.",
     url: BASE_URL,
     siteName: "취팡",
     locale: "ko_KR",
     type: "website",
+    images: [
+      {
+        url: "/ogimage.png",
+        width: 1200,
+        height: 630,
+        alt: "취팡 | AI 취업채용 플랫폼",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/ogimage.png"],
   },
   alternates: {
     canonical: BASE_URL,

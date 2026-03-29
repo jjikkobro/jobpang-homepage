@@ -12,53 +12,17 @@ import {
   Gift,
   Building2,
   MessageCircle,
+  MapPin,
+  Trees,
+  Store,
 } from "lucide-react";
+import { positions, BRAND } from "./data";
 
 export const metadata: Metadata = {
   title: "채용공고 | 취팡",
   description:
     "취팡은 3년 커리어 점프 구간을 설계한 팀입니다. 서비스 운영 PM, 서비스 기획자, 콘텐츠 마케터, 퍼포먼스 마케터, 마케팅 매니저를 모집합니다.",
 };
-
-const BRAND = "#e20871";
-
-const positions = [
-  {
-    title: "서비스 운영 PM",
-    tagline: "서비스 운영 관리와 프로젝트 흐름을 정리하는 역할",
-    years: "4~8년",
-    tasks: ["서비스 운영 관리", "프로젝트 일정 관리", "개발사 협업", "내부 업무 정리 및 보고"],
-    experience: "서비스 운영 / PMO / 운영기획 / 프로젝트 관리 경험",
-  },
-  {
-    title: "서비스 기획자",
-    tagline: "서비스 구조와 사용자 흐름을 설계하는 역할",
-    years: "2~7년",
-    tasks: ["서비스 기능 기획", "사용자 흐름 설계", "요구사항 정의", "서비스 개선 기획"],
-    experience: "서비스 기획 / PM·PO / 개발 → PM 전환 / 운영기획 경험",
-  },
-  {
-    title: "콘텐츠 마케터",
-    tagline: "취팡 콘텐츠 전략과 채널 운영을 담당",
-    years: "2~5년",
-    tasks: ["콘텐츠 기획", "자사 채널 운영", "콘텐츠 제작 디렉션"],
-    experience: "블로그 / SNS 콘텐츠 / 커뮤니티 콘텐츠 운영 경험",
-  },
-  {
-    title: "퍼포먼스 마케터",
-    tagline: "마케팅 성과 개선과 광고 운영을 담당",
-    years: "2~5년",
-    tasks: ["광고 운영", "성과 분석", "전환 개선"],
-    experience: "광고 운영 / 마케팅 성과 개선 경험",
-  },
-  {
-    title: "마케팅 매니저",
-    tagline: "마케팅 운영과 커뮤니티 채널을 관리하는 역할",
-    years: "0~4년",
-    tasks: ["커뮤니티 운영", "외부 채널 관리", "사용자 반응 수집"],
-    experience: "마케팅 운영 / 커뮤니티 운영 / 채널 운영 경험",
-  },
-];
 
 const benefits = [
   { icon: Laptop, label: "하이브리드 근무" },
@@ -68,6 +32,9 @@ const benefits = [
   { icon: BarChart3, label: "분기 성과급" },
   { icon: Gift, label: "엑시트 시 구성원 보상" },
   { icon: Bot, label: "AI 업무 환경" },
+  { icon: MapPin, label: "충무로역 도보 1분" },
+  { icon: Trees, label: "남산한옥마을 도보 1분" },
+  { icon: Store, label: "건물 1층 카페 이용 가능" },
 ];
 
 const lookingFor = [
@@ -80,9 +47,16 @@ const lookingFor = [
 
 const processSteps = [
   { step: "01", label: "서류 전형", note: null },
-  { step: "02", label: "1차 비대면 면접", note: null },
-  { step: "03", label: "2차 면접", note: "1차 합격자에 한해 2차 면접 전 간단한 사전 미션이 안내됩니다. 2차 면접에서는 미션 리뷰와 함께 직무 적합성 및 협업 방식을 종합적으로 확인합니다." },
-  { step: "04", label: "처우 협의 및 최종 합격", note: null },
+  {
+    step: "02",
+    label: "비대면 인터뷰 + 간단 과제",
+    note: "서류 합격자에 한해 비대면 인터뷰가 진행됩니다. 인터뷰 전 간단한 사전 과제가 안내됩니다.",
+  },
+  {
+    step: "03",
+    label: "대면 인터뷰",
+    note: "직무 적합성 및 협업 방식을 종합적으로 확인하는 최종 대면 인터뷰입니다.",
+  },
 ];
 
 export default function CareersPage() {
@@ -140,32 +114,38 @@ export default function CareersPage() {
               <strong className="text-gray-900">&apos;3년 커리어 점프 구간&apos;을 설계한 팀입니다.</strong>
             </p>
             <p>
-              재택과 출근을 선택할 수 있는{" "}
-              <strong className="text-gray-900">하이브리드 근무</strong>를 운영하며,
-              공유오피스는 협업이 필요할 때 모이는 거점으로 사용합니다.
-              복지는 단순합니다.{" "}
-              <strong className="text-gray-900">점심 2만원, 매달 리텐션 보너스 10만원</strong>을 제공합니다.
-              성과는{" "}
-              <strong className="text-gray-900">분기 성과급</strong>으로 보상하고,
-              엑시트가 발생하면 구성원에게 강력한 보너스를 제공합니다.
+              초기 온보딩 및 업무 적응 기간에는 오프라인 중심으로 근무하며,
+              이후에는 상황에 따라 유연하게 운영되는{" "}
+              <strong className="text-gray-900">하이브리드 근무</strong>를 적용합니다.
+              사무실은{" "}
+              <strong className="text-gray-900">충무로역 도보 1분 거리</strong>에 위치해 있으며,
+              빠른 협업과 실행이 가능한 환경을 갖추고 있습니다.
             </p>
             <p>
-              취팡은 완전히 맨땅에서 시작하는 스타트업이 아니라,{" "}
+              복지는 단순하고 명확합니다.{" "}
+              <strong className="text-gray-900">점심 식대 2만원, 매달 리텐션 보너스 10만원</strong>이 제공되며,
+              성과는{" "}
+              <strong className="text-gray-900">분기 성과급</strong>으로 보상합니다.
+              또한 향후 엑시트 발생 시{" "}
+              <strong className="text-gray-900">구성원에게 직접적인 보상이 돌아가는 구조</strong>를 설계하고 있습니다.
+            </p>
+            <p>
+              취팡은 완전히 맨땅에서 시작하는 스타트업이 아닙니다.{" "}
               <strong className="text-gray-900">
-                이미 구축된 브랜드·콘텐츠 자산·회원 기반·업무 시스템 위에서 성장하는 플랫폼 팀
+                이미 구축된 취업의신 브랜드, 콘텐츠 자산, 회원 기반, 운영 시스템 위에서 빠르게 성장하는 플랫폼 팀
               </strong>입니다.
             </p>
             <p>
-              또한 향후{" "}
-              <strong className="text-gray-900">3년 내 IPO 또는 엑시트를 포함한 성장 시나리오</strong>를
-              준비하고 있으며, 그 과정에서 계속 함께할 수도 있고 다음 커리어로 이동할 수도 있습니다.
+              향후{" "}
+              <strong className="text-gray-900">3년 내 IPO 또는 엑시트를 목표로 성장 시나리오</strong>를
+              준비하고 있으며, 그 과정에서 함께 성장할 수도 있고, 이후 더 큰 커리어로 이동할 수도 있습니다.
             </p>
             <p
               className="border-l-[3px] pl-5 py-0.5 font-semibold text-gray-900"
               style={{ borderColor: BRAND }}
             >
-              취팡에서의 3년은 단순한 회사 경력이 아니라{" "}
-              <strong style={{ color: BRAND }}>하나의 커리어 점프 구간이 될 수 있습니다.</strong>
+              취팡에서의 3년은 단순한 재직 기간이 아니라,{" "}
+              <strong style={{ color: BRAND }}>커리어 레벨을 한 단계 끌어올리는 &apos;점프 구간&apos;이 됩니다.</strong>
             </p>
           </div>
           </div>
@@ -230,7 +210,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* ━━━ 모집 포지션 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* ━━━ 모집 포지션 (테이블) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section id="positions" className="bg-white py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-8 flex items-end justify-between gap-4">
@@ -250,58 +230,90 @@ export default function CareersPage() {
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {positions.map((pos) => (
+          {/* 데스크탑 테이블 */}
+          <div className="hidden overflow-hidden rounded-xl border border-gray-200 md:block">
+            <div className="grid grid-cols-[2fr_120px_2fr_130px] bg-gray-50 px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-200">
+              <span>포지션</span>
+              <span>우대 경력</span>
+              <span>주요 업무</span>
+              <span className="text-right">상세보기</span>
+            </div>
+            {positions.map((pos, idx) => (
               <div
-                key={pos.title}
-                className="flex flex-col rounded-xl border border-gray-300 bg-white p-6 transition-shadow hover:shadow-md"
-                style={{ borderTopWidth: "3px", borderTopColor: BRAND }}
+                key={pos.slug}
+                className={`grid grid-cols-[2fr_120px_2fr_130px] items-center gap-4 px-6 py-5 transition-colors hover:bg-gray-50 ${
+                  idx < positions.length - 1 ? "border-b border-gray-100" : ""
+                }`}
               >
-                <div className="mb-4">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
                     <span
-                      className="inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold"
+                      className="inline-block rounded-full px-2 py-0.5 text-[10px] font-bold"
                       style={{ backgroundColor: `${BRAND}14`, color: BRAND }}
                     >
                       모집 중
                     </span>
-                    <span className="inline-block rounded-full border border-gray-300 bg-gray-50 px-2.5 py-0.5 text-[11px] font-semibold text-gray-500">
-                      신입 가능
+                  </div>
+                  <p className="text-base font-extrabold text-gray-900">{pos.title}</p>
+                  <p className="mt-0.5 text-xs text-gray-400">{pos.tagline}</p>
+                </div>
+                <div>
+                  <span className="inline-block rounded-full border border-gray-300 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-600">
+                    {pos.years}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {pos.tasks.map((task) => (
+                    <span
+                      key={task}
+                      className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-600"
+                    >
+                      {task}
                     </span>
-                    <span className="inline-block rounded-full border border-gray-300 bg-gray-50 px-2.5 py-0.5 text-[11px] font-semibold text-gray-500">
-                      우대 {pos.years}
+                  ))}
+                </div>
+                <div className="text-right">
+                  <Link
+                    href={`/careers/${pos.slug}`}
+                    className="inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-xs font-semibold transition-all hover:bg-[#e20871] hover:text-white hover:border-[#e20871]"
+                    style={{ borderColor: BRAND, color: BRAND }}
+                  >
+                    상세 보기 <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 모바일: 카드형 (작은 화면에서만 표시) */}
+          <div className="grid gap-3 md:hidden">
+            {positions.map((pos) => (
+              <div
+                key={pos.slug}
+                className="rounded-xl border border-gray-200 bg-white p-5"
+                style={{ borderTopWidth: "3px", borderTopColor: BRAND }}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <span
+                      className="inline-block rounded-full px-2 py-0.5 text-[10px] font-bold mb-1.5"
+                      style={{ backgroundColor: `${BRAND}14`, color: BRAND }}
+                    >
+                      모집 중
+                    </span>
+                    <p className="text-base font-extrabold text-gray-900">{pos.title}</p>
+                    <p className="mt-0.5 text-xs text-gray-400">{pos.tagline}</p>
+                    <span className="mt-2 inline-block rounded-full border border-gray-300 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-600">
+                      {pos.years}
                     </span>
                   </div>
-                  <h3 className="mt-2.5 text-lg font-extrabold text-gray-900">
-                    {pos.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-gray-500">
-                    {pos.tagline}
-                  </p>
-                </div>
-
-                <div className="flex-1 border-t border-gray-100 pt-4">
-                  <p className="mb-2 text-[11px] font-bold tracking-wider text-gray-400 uppercase">
-                    주요 업무
-                  </p>
-                  <ul className="space-y-1.5">
-                    {pos.tasks.map((task) => (
-                      <li key={task} className="flex items-start gap-2 text-sm text-gray-700">
-                        <span
-                          className="mt-1.5 h-1 w-1 shrink-0 rounded-full"
-                          style={{ backgroundColor: BRAND }}
-                        />
-                        {task}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3">
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
-                    유관 경험
-                  </p>
-                  <p className="text-xs leading-relaxed text-gray-600">{pos.experience}</p>
+                  <Link
+                    href={`/careers/${pos.slug}`}
+                    className="shrink-0 inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold"
+                    style={{ borderColor: BRAND, color: BRAND }}
+                  >
+                    상세 보기 <ArrowRight className="h-3 w-3" />
+                  </Link>
                 </div>
               </div>
             ))}
@@ -390,8 +402,9 @@ export default function CareersPage() {
                     <h3 className="text-base font-bold text-gray-900">하이브리드 근무</h3>
                   </div>
                   <p className="text-sm leading-relaxed text-gray-500">
-                    입사 초기에는 출근 중심으로 온보딩하며, 이후 숙련도와 협업 상황에 따라
-                    재택과 출근을 유연하게 병행합니다. 공유오피스는 협업이 필요할 때 모이는 거점으로 사용합니다.
+                    입사 초기 온보딩 기간에는 출근 중심으로 진행하며, 온보딩 이후에는 숙련도와
+                    협업 상황에 따라 재택과 출근을 유연하게 병행합니다.
+                    공유오피스는 협업이 필요할 때 모이는 거점으로 사용합니다.
                   </p>
                 </div>
                 <div className="rounded-lg border border-gray-300 bg-white p-5">
