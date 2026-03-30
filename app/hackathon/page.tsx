@@ -9,7 +9,10 @@ import {
   Trophy,
   ChevronRight,
 } from "lucide-react";
-import { getIssuesByCategory, STATUS_LABEL } from "@/lib/data";
+import { STATUS_LABEL } from "@/lib/data";
+import { getIssuesByCategory } from "@/lib/data-server";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "해커톤 | 취팡",

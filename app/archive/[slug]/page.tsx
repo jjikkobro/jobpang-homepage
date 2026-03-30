@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, MapPin, Calendar, ExternalLink, ChevronRight } from "lucide-react";
-import { issues, getIssueBySlug, CATEGORY_LABEL, STATUS_LABEL } from "@/lib/data";
+import { type Issue, CATEGORY_LABEL, STATUS_LABEL } from "@/lib/data";
+import { readIssues, getIssueBySlug } from "@/lib/data-server";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return issues
-    .filter((i) => i.category !== "networking")
-    .map((i) => ({ slug: i.issueId }));
+  return readIssues()
+    .filter((i: Issue) => i.category !== "networking")
+    .map((i: Issue) => ({ slug: i.issueId }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

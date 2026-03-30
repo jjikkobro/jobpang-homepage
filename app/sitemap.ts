@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { issues } from "@/lib/data";
+import { readIssues } from "@/lib/data-server";
 
 const BASE_URL = "https://growth.jobpang.co.kr";
 
@@ -61,7 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const archivePages: MetadataRoute.Sitemap = issues.map((issue) => ({
+  const archivePages: MetadataRoute.Sitemap = readIssues().map((issue) => ({
     url: `${BASE_URL}/archive/${issue.issueId}`,
     lastModified: new Date(issue.endDate),
     changeFrequency: issue.status === "ongoing" ? "daily" : "yearly",

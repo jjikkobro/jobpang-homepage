@@ -1,7 +1,21 @@
 import Link from "next/link";
 import { ArrowRight, TrendingUp, Cpu, Users, ChevronDown } from "lucide-react";
+import { readIssues } from "@/lib/data-server";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 const BRAND = "#e20871";
+
+const CATEGORY_KO: Record<string, string> = {
+  venture: "창업/투자",
+  hackathon: "해커톤",
+  networking: "네트워킹",
+};
+
+function formatDate(dateStr: string): string {
+  return dateStr.replace(/-/g, ".").slice(0, 10);
+}
 
 const stats = [
   { label: "누적 회차", value: "53회" },
@@ -42,26 +56,6 @@ const categories = [
   },
 ];
 
-const recentIssues = [
-  {
-    id: "hackathon-001",
-    title: "제 1회 취팡 해커톤",
-    category: "해커톤",
-    status: "ongoing" as const,
-    date: "2026.02.23 — 03.22",
-    location: "온·오프라인 병행",
-    slug: "hackathon-001",
-  },
-  {
-    id: "venture-001",
-    title: "제 1회 창업 스타트업 투자 경진대회",
-    category: "창업/투자",
-    status: "past" as const,
-    date: "2025.10.02 — 10.15",
-    location: "구글 스타트업 캠퍼스(서울)",
-    slug: "venture-001",
-  },
-];
 
 const networkingItems = [
   { num: "01", title: "4주 챌린지", desc: "목표 설정 · 실행 점검 · 공유" },
@@ -71,6 +65,40 @@ const networkingItems = [
 ];
 
 export default function HomePage() {
+  const allIssues = readIssues();
+
+  // 네트워킹 제외, 최신순(startDate) 상위 2개
+  const recentIssues = [...allIssues]
+    .filter((i) => i.category !== "networking")
+    .sort((a, b) => b.startDate.localeCompare(a.startDate))
+    .slice(0, 2)
+    .map((i) => ({
+      id: i.issueId,
+      title: i.title,
+      category: CATEGORY_KO[i.category] ?? i.category,
+      status: i.status,
+      date: `${formatDate(i.startDate)} — ${formatDate(i.endDate).slice(5)}`,
+      location: i.location,
+      slug: i.issueId,
+    }));
+
+  // 히어로 배지: ongoing → recruiting → upcoming 순으로 첫 번째 비-네트워킹 이벤트
+  const featuredIssue = allIssues.find(
+    (i) => i.category !== "networking" && i.status === "ongoing"
+  ) ?? allIssues.find(
+    (i) => i.category !== "networking" && i.status === "recruiting"
+  ) ?? allIssues.find(
+    (i) => i.category !== "networking" && i.status === "upcoming"
+  );
+
+  const badgeLabel = featuredIssue
+    ? {
+        ongoing: "지금 진행중",
+        recruiting: "모집중",
+        upcoming: "모집 예정",
+        past: "",
+      }[featuredIssue.status] + ` — ${featuredIssue.title}`
+    : null;
   return (
     <>
       {/* ━━━ S1. HERO (black 유지) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
@@ -96,22 +124,24 @@ export default function HomePage() {
 
         <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
           <div className="max-w-3xl">
-            {/* 진행중 배지 */}
-            <div
-              className="mb-10 inline-flex items-center gap-2 rounded-full border px-4 py-2"
-              style={{ borderColor: `${BRAND}40`, backgroundColor: `${BRAND}12` }}
-            >
-              <span
-                className="h-1.5 w-1.5 animate-pulse rounded-full"
-                style={{ backgroundColor: BRAND }}
-              />
-              <span
-                className="text-xs font-bold tracking-widest uppercase"
-                style={{ color: BRAND }}
+            {/* 진행중/예정 배지 */}
+            {badgeLabel && (
+              <div
+                className="mb-10 inline-flex items-center gap-2 rounded-full border px-4 py-2"
+                style={{ borderColor: `${BRAND}40`, backgroundColor: `${BRAND}12` }}
               >
-                지금 진행중 — 제 1회 취팡 해커톤
-              </span>
-            </div>
+                <span
+                  className="h-1.5 w-1.5 animate-pulse rounded-full"
+                  style={{ backgroundColor: BRAND }}
+                />
+                <span
+                  className="text-xs font-bold tracking-widest uppercase"
+                  style={{ color: BRAND }}
+                >
+                  {badgeLabel}
+                </span>
+              </div>
+            )}
 
             <h1 className="text-6xl font-extrabold leading-[1.0] tracking-tight text-white sm:text-7xl lg:text-[96px]">
               도전하는
@@ -285,13 +315,17 @@ export default function HomePage() {
               >
                 {/* 상태 */}
                 <div className="w-24 shrink-0">
-                  {issue.status === "ongoing" ? (
+                  {issue.status === "ongoing" || issue.status === "recruiting" ? (
                     <span
                       className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-white"
                       style={{ backgroundColor: BRAND }}
                     >
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
-                      진행중
+                      {issue.status === "recruiting" ? "모집중" : "진행중"}
+                    </span>
+                  ) : issue.status === "upcoming" ? (
+                    <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-500">
+                      모집예정
                     </span>
                   ) : (
                     <span className="inline-flex items-center rounded-full border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-400">

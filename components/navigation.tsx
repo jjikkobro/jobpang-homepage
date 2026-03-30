@@ -30,7 +30,7 @@ const navItems = [
 export function Navigation() {
   const pathname = usePathname();
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [bannerVisible, setBannerVisible] = useState(true);
+  const [bannerVisible, setBannerVisible] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {

@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
-import {
-  issues,
-  type Issue,
-  type IssueCategory,
-  STATUS_LABEL,
-  CATEGORY_LABEL,
-} from "@/lib/data";
+import { type Issue, type IssueCategory, STATUS_LABEL, CATEGORY_LABEL } from "@/lib/data";
+import { readIssues } from "@/lib/data-server";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "아카이브 | 취팡",
@@ -197,7 +194,7 @@ export default function ArchivePage() {
 
       {/* ━━━ 섹션별 아카이브 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {sections.map((sec, si) => {
-        const sectionIssues = issues.filter((i) => i.category === sec.category);
+        const sectionIssues = readIssues().filter((i: Issue) => i.category === sec.category);
         const ongoingFirst = [...sectionIssues].sort((a, b) => {
           const order: Record<string, number> = { recruiting: 0, ongoing: 1, upcoming: 2, past: 3 };
           return (order[a.status] ?? 99) - (order[b.status] ?? 99);

@@ -23,12 +23,16 @@ import {
   Store,
   TrendingUp,
 } from "lucide-react";
-import { positions, getPositionBySlug, BRAND } from "../data";
+import { BRAND } from "../data";
+import { getActivePositions, getPositionBySlug } from "@/lib/positions-server";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return positions.map((p) => ({ slug: p.slug }));
+  return getActivePositions().map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -81,6 +85,7 @@ export default async function PositionDetailPage({ params }: Props) {
   const pos = getPositionBySlug(slug);
   if (!pos) notFound();
 
+  const positions = getActivePositions();
   const currentIdx = positions.findIndex((p) => p.slug === slug);
   const prevPos = currentIdx > 0 ? positions[currentIdx - 1] : null;
   const nextPos = currentIdx < positions.length - 1 ? positions[currentIdx + 1] : null;

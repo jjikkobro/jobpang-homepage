@@ -9,7 +9,10 @@ import {
   Users,
   ChevronRight,
 } from "lucide-react";
-import { getIssuesByCategory, STATUS_LABEL } from "@/lib/data";
+import { STATUS_LABEL } from "@/lib/data";
+import { getIssuesByCategory } from "@/lib/data-server";
+
+export const dynamic = "force-dynamic";
 import { GalleryMarquee } from "@/components/gallery-marquee";
 
 export const metadata: Metadata = {

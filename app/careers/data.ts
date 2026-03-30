@@ -16,7 +16,11 @@ export interface Position {
   preferred?: string[];
   /** 상세 페이지: 구직자 친화 안내 메시지 */
   friendlyNote?: string;
+  active?: boolean;
 }
+
+// 데이터는 data/positions.json 에서 관리됩니다.
+// 서버 사이드 읽기/쓰기는 lib/positions-server.ts 를 사용하세요.
 
 export const positions: Position[] = [
   {

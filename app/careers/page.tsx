@@ -16,7 +16,11 @@ import {
   Trees,
   Store,
 } from "lucide-react";
-import { positions, BRAND } from "./data";
+import { BRAND } from "./data";
+import { getActivePositions } from "@/lib/positions-server";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export const metadata: Metadata = {
   title: "채용공고 | 취팡",
@@ -60,6 +64,7 @@ const processSteps = [
 ];
 
 export default function CareersPage() {
+  const positions = getActivePositions();
   return (
     <>
       {/* ━━━ HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
